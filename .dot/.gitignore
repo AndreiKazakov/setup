@@ -1,0 +1,9 @@
+.DS_Store
+.idea
+.python-version
+.venv
+.mypy_cache
+.cache
+.envrc
+*.retry
+

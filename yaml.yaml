@@ -4,7 +4,7 @@
     vimrcs: ['.vimrc', '.ideavimrc']
     external_zsh_plugins: ['zsh-autosuggestions', 'zsh-syntax-highlighting', 'zsh-completions']
     zsh_plugins: ['kubectl']
-    git_repos: ['AndreiKazakov/pyinstall', 'superbrothers/zsh-kubectl-prompt']
+    git_repos: ['superbrothers/zsh-kubectl-prompt']
     git_configs:
       - name: user.name
         value: Andrei Kazakov

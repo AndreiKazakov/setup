@@ -56,6 +56,13 @@
         src: .dot/
         dest: ~/.dot/
 
+    - name: Copy ammonite (scala REPL) settings
+      copy:
+        src: predef.sc
+        directory_mode: yes
+        dest: ~/.ammonite/predef.sc
+        force: no
+
     - name: Install all the packages (Pacman)
       become: yes
       package:
@@ -139,4 +146,3 @@
     - name: Use Zsh as a default shell
       become: true
       shell: chsh -s /bin/zsh
-

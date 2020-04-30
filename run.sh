@@ -1,2 +1,2 @@
 #!/bin/sh
-ansible-playbook yaml.yaml
+ansible-playbook -K yaml.yaml

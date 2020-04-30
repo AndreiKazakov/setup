@@ -1,6 +1,18 @@
 export KEYTIMEOUT=1
-
+export PATH=~/bin:$PATH
 bindkey -v
+
+zle-upify() {
+    buf="$(echo "$BUFFER" | sed 's/[ |]*$//')"
+    tmp="$(mktemp)"
+    eval "$buf |& up --unsafe-full-throttle -o '$tmp' 2>/dev/null"
+    cmd="$(tail -n +2 "$tmp")"
+    rm -f "$tmp"
+    BUFFER="$BUFFER | $cmd"
+    zle end-of-line
+}
+zle -N zle-upify
+bindkey '^U' zle-upify
 
 function zle-line-init zle-keymap-select {
    VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"

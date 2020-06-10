@@ -25,6 +25,7 @@ set nobackup
 set nowb
 set noswapfile
 set laststatus=2
+set visualbell
 syntax on
 imap <silent> <down> <c-o>gj
 imap <silent> <up> <c-o>gk

@@ -44,7 +44,6 @@ bindkey "^X^E" edit-command-line
 export EDITOR=vim
 export ANSIBLE_NOCOWS=1
 export ANSIBLE_HOST_KEY_CHECKING=false
-alias k=kubectl
 alias ccat='ccat --bg=dark --color=always'
 alias gapw='git -c interactive.diffFilter="git diff --color-words" add -p'
 eval "$(direnv hook zsh)"

@@ -3,8 +3,8 @@
     is_linux: "{{ lookup('pipe', 'uname') == 'Linux' }}"
     vimrcs: ['.vimrc', '.ideavimrc']
     external_zsh_plugins: ['zsh-autosuggestions', 'zsh-syntax-highlighting', 'zsh-completions']
-    zsh_plugins: ['kubectl']
-    git_repos: ['superbrothers/zsh-kubectl-prompt']
+    zsh_plugins: []
+    git_repos: []
     git_configs:
       - name: user.name
         value: Andrei Kazakov

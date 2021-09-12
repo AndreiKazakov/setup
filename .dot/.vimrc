@@ -8,7 +8,6 @@ set autoindent
 set smartindent
 set backspace=2
 set tabstop=4
-set rnu
 set nu
 set smarttab
 set shiftwidth=2
@@ -25,7 +24,10 @@ set nobackup
 set nowb
 set noswapfile
 set laststatus=2
-set visualbell
+set noerrorbells visualbell t_vb=
+if has('autocmd')
+  autocmd GUIEnter * set visualbell t_vb=
+endif
 syntax on
 imap <silent> <down> <c-o>gj
 imap <silent> <up> <c-o>gk

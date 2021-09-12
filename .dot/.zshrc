@@ -1,18 +1,9 @@
 export KEYTIMEOUT=1
 export PATH=~/bin:$PATH
+export LANG="en_US.utf8"
 bindkey -v
 
-zle-upify() {
-    buf="$(echo "$BUFFER" | sed 's/[ |]*$//')"
-    tmp="$(mktemp)"
-    eval "$buf |& up --unsafe-full-throttle -o '$tmp' 2>/dev/null"
-    cmd="$(tail -n +2 "$tmp")"
-    rm -f "$tmp"
-    BUFFER="$BUFFER | $cmd"
-    zle end-of-line
-}
-zle -N zle-upify
-bindkey '^U' zle-upify
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions)
 
 function zle-line-init zle-keymap-select {
    VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
@@ -44,9 +35,7 @@ bindkey "^X^E" edit-command-line
 export EDITOR=vim
 export ANSIBLE_NOCOWS=1
 export ANSIBLE_HOST_KEY_CHECKING=false
-alias ccat='ccat --bg=dark --color=always'
 alias gapw='git -c interactive.diffFilter="git diff --color-words" add -p'
-eval "$(direnv hook zsh)"
 
 HISTSIZE=10000000
 SAVEHIST=10000000
@@ -68,15 +57,3 @@ setopt HIST_VERIFY # Don't execute immediately upon history expansion.
 FZF_DEFAULT_OPTS="--preview='echo {} | ccat --color=always'"
 
 autoload -U colors; colors
-#source ~/prj/superbrothers/zsh-kubectl-prompt/kubectl.zsh
-#RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
-
-# show_virtual_env() {
-#   if [ -n "$VIRTUAL_ENV" ]; then
-#    echo "($(basename $(dirname $VIRTUAL_ENV)))"
-#  fi
-#}
-#export -f show_virtual_env
-#PS1='$(show_virtual_env) '$PS1
-
-

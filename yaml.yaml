@@ -3,8 +3,6 @@
     is_linux: "{{ lookup('pipe', 'uname') == 'Linux' }}"
     vimrcs: ['.vimrc', '.ideavimrc']
     external_zsh_plugins: ['zsh-autosuggestions', 'zsh-syntax-highlighting', 'zsh-completions']
-    zsh_plugins: []
-    git_repos: []
     git_configs:
       - name: user.name
         value: Andrei Kazakov
@@ -39,6 +37,8 @@
       - go
       - watchexec
       - autojump
+      - alacritty
+      - tmux
     brew_packages:
       - watch
       - bash
@@ -46,12 +46,6 @@
       - git-crypt
     pacman_packages:
       - python
-    go_packages:
-      - github.com/jingweno/ccat
-      - github.com/direnv/direnv
-    linux_binaries:
-      - url: 'https://github.com/akavel/up/releases/download/v0.3.2/up'
-        checksum: 'sha256:0b0ab61ad4db87063b5a8eefa398e2b6998774bc78bdac19738d1f7e8c87eb82'
 
   tasks:
     - name: Copy common configs
@@ -59,27 +53,11 @@
         src: .dot/
         dest: ~/.dot/
 
-    - name: Copy ammonite (scala REPL) settings
-      copy:
-        src: predef.sc
-        directory_mode: yes
-        dest: ~/.ammonite/predef.sc
-        force: no
-    
-    - name: Create a directory if it does not exist
+    - name: Create a ~/bin directory if it does not exist
       file:
         path: ~/bin
         state: directory
         mode: '0755'
-
-    - name: Install all the linux binaries
-      get_url:
-        url: '{{ item.url }}'
-        dest: '~/bin/'
-        mode: '0744'
-        checksum: '{{ item.checksum }}'
-      with_items: '{{ linux_binaries }}'
-      when: is_linux
 
     - name: Install all the packages (Pacman)
       become: yes
@@ -87,11 +65,6 @@
         name: '{{ item }}'
         state: latest
       with_items: '{{ common_packages + pacman_packages }}'
-      when: is_linux
-
-    - name: Install all the packages (Go)
-      command: go get -u '{{ item }}'
-      with_items: '{{ go_packages }}'
       when: is_linux
 
     - name: Install all the packages (Homebrew)
@@ -121,12 +94,6 @@
         line: source ~/.dot/.vimrc
       with_items: '{{ vimrcs }}'
 
-    - name: Install git repos
-      git:
-        repo: 'git://github.com/{{ item }}.git'
-        dest: '~/prj/{{ item }}'
-      with_items: '{{ git_repos }}'
-
     - name: Install Oh My Zsh
       git:
         repo: git://github.com/robbyrussell/oh-my-zsh.git
@@ -149,18 +116,12 @@
         dest: '~/.oh-my-zsh/custom/plugins/{{ item }}'
       with_items: '{{ external_zsh_plugins }}'
 
-    - name: Source External Zsh Plugins
+    - name: Remove plugins line from ~/.zshrc
       lineinfile:
         path: ~/.zshrc
-        insertafter: '^plugins=.*$'
-        line: '{{ external_zsh_plugins | join(" ") }}'
+        state: absent
+        regex: '^plugins=\([.\n]*?\)$'
     
-    - name: Source Zsh Plugins
-      lineinfile:
-        path: ~/.zshrc
-        insertafter: '{{ external_zsh_plugins | join(" ") }}'
-        line: '{{ zsh_plugins | join(" ") }}'
-
     - name: Use Zsh as a default shell
       become: true
       shell: chsh -s /bin/zsh

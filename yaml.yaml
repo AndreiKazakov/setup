@@ -27,7 +27,7 @@
       - httpie
       - tig
       - zsh
-      - vim
+      - gvim
       - jq
       - htop
       - docker

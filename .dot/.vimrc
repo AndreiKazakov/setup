@@ -33,4 +33,4 @@ imap <silent> <down> <c-o>gj
 imap <silent> <up> <c-o>gk
 nmap <silent> <down> gj
 nmap <silent> <up> gk
-set clipboard=unnamed
+set clipboard=unnamedplus

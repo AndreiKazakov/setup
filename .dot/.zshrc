@@ -1,6 +1,10 @@
 export KEYTIMEOUT=1
 export PATH=~/bin:$PATH
 export LANG="en_US.utf8"
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  tmux attach || exec tmux new-session && exit;
+fi
+
 bindkey -v
 
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions)

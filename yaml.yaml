@@ -94,6 +94,12 @@
         line: source ~/.dot/.vimrc
       with_items: '{{ vimrcs }}'
 
+    - name: Create tmux config
+      copy:
+        content: "source-file ~/.dot/.tmux.conf"
+        dest: '~/.tmux.conf'
+        force: no
+
     - name: Install Oh My Zsh
       git:
         repo: git://github.com/robbyrussell/oh-my-zsh.git

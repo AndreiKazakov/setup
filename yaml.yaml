@@ -16,12 +16,13 @@
         value: diff --minimal --word-diff=color --word-diff-regex=\"([0-9@A-Za-z]+|[^0-9@A-Za-z()]+|[()])\"
       - name: alias.sho
         value: show --minimal --word-diff=color --word-diff-regex=\"([0-9@A-Za-z]+|[^0-9@A-Za-z()]+|[()])\"
-      - name: interactive.diffFilter
-        value: '`brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight'
       - name: core.excludesfile
         value: ~/.dot/.gitignore
+    git_configs_mac:
       - name: core.pager
         value: '`brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight | less -r'
+      - name: interactive.diffFilter
+        value: '`brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight'
     common_packages:
       - git
       - httpie
@@ -80,6 +81,13 @@
         value: '{{ item.value }}'
         scope: global
       with_items: '{{ git_configs }}'
+
+    - name: Set up git configs (Mac OS)
+      git_config:
+        name: '{{ item.name }}'
+        value: '{{ item.value }}'
+        scope: global
+      with_items: '{{ git_configs_mac }}'
 
     - name: Create vim files
       copy:

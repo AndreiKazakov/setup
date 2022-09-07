@@ -24,27 +24,33 @@
       - name: interactive.diffFilter
         value: '`brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight'
     common_packages:
-      - git
-      - httpie
-      - tig
-      - zsh
-      - gvim
-      - jq
-      - htop
-      - docker
-      - tree
-      - ripgrep
-      - fzf
-      - go
-      - watchexec
-      - autojump
       - alacritty
+      - docker
+      - fzf
+      - git
+      - go
+      - gvim
+      - htop
+      - httpie
+      - jq
+      - make
+      - neovim
+      - node
+      - ripgrep
+      - rust-analyzer
+      - tig
       - tmux
+      - tree
+      - unzip
+      - watchexec
+      - zsh
     brew_packages:
-      - watch
+      - autojump
       - bash
-      - python3
       - git-crypt
+      - make
+      - python3
+      - watch
     pacman_packages:
       - python
 
@@ -75,6 +81,22 @@
       with_items: '{{ common_packages + brew_packages }}'
       when: not is_linux
 
+    - name: Install cargo
+      shell: curl https://sh.rustup.rs -sSf | sh
+      args:
+        warn: no
+
+    - name: Install Lunar Vim
+      shell: bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
+      args:
+        warn: no
+
+    - name: Copy Lunar Vim config
+      copy:
+        src: './.dot/config.lua'
+        dest: '~/.config/lvim/config.lua'
+        force: no
+
     - name: Set up git configs
       git_config:
         name: '{{ item.name }}'
@@ -88,6 +110,7 @@
         value: '{{ item.value }}'
         scope: global
       with_items: '{{ git_configs_mac }}'
+      when: not is_linux
 
     - name: Create vim files
       copy:
@@ -102,6 +125,12 @@
         line: source ~/.dot/.vimrc
       with_items: '{{ vimrcs }}'
 
+    - name: Create alacritty config
+      copy:
+        src: './.dot/.alacritty.yml'
+        dest: '~/.alacritty.yml'
+        force: no
+
     - name: Create tmux config
       copy:
         content: "source-file ~/.dot/.tmux.conf"
@@ -110,7 +139,7 @@
 
     - name: Install Oh My Zsh
       git:
-        repo: git://github.com/robbyrussell/oh-my-zsh.git
+        repo: https://github.com/robbyrussell/oh-my-zsh.git
         dest: ~/.oh-my-zsh
 
     - name: Create a new Zsh config

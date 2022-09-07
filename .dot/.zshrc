@@ -28,8 +28,12 @@ zle -N accept-line _reset-prompt-and-accept-line
 bindkey "^R" history-incremental-search-backward
 bindkey -M vicmd '?' history-incremental-search-backward
 bindkey -M vicmd '/' history-incremental-search-forward
-bindkey "^[OA" up-line-or-beginning-search
-bindkey "^[OB" down-line-or-beginning-search
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+[[ -n "${key[Up]}"   ]] && bindkey -- "${key[Up]}"   up-line-or-beginning-search
+[[ -n "${key[Down]}" ]] && bindkey -- "${key[Down]}" down-line-or-beginning-search
 bindkey -M vicmd "j" down-line-or-beginning-search
 bindkey -M vicmd "k" up-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
@@ -61,3 +65,7 @@ setopt HIST_VERIFY # Don't execute immediately upon history expansion.
 FZF_DEFAULT_OPTS="--preview='echo {} | ccat --color=always'"
 
 autoload -U colors; colors
+
+[[ -s /home/andrei/.autojump/etc/profile.d/autojump.sh ]] && source /home/andrei/.autojump/etc/profile.d/autojump.sh
+autoload -U compinit && compinit -u
+autoload -U edit-command-line && zle -N edit-command-line

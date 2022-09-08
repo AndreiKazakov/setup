@@ -88,20 +88,9 @@
       when: not is_linux
 
     - name: Install cargo
-      shell: curl https://sh.rustup.rs -sSf | sh
+      shell: curl https://sh.rustup.rs -sSfy | bash -s -- -y
       args:
         warn: no
-
-    - name: Install Lunar Vim
-      shell: bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
-      args:
-        warn: no
-
-    - name: Copy Lunar Vim config
-      copy:
-        src: './.dot/config.lua'
-        dest: '~/.config/lvim/config.lua'
-        force: no
 
     - name: Set up git configs
       git_config:
@@ -174,3 +163,15 @@
     - name: Use Zsh as a default shell
       become: true
       shell: chsh -s /bin/zsh
+
+    - name: Install Lunar Vim
+      shell: curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh -y | bash -s -- -y
+      args:
+        warn: no
+
+    - name: Copy Lunar Vim config
+      copy:
+        src: './.dot/config.lua'
+        dest: '~/.config/lvim/config.lua'
+        force: no
+

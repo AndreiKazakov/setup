@@ -24,7 +24,6 @@
       - name: interactive.diffFilter
         value: '`brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight'
     common_packages:
-      - alacritty
       - docker
       - fzf
       - git
@@ -47,7 +46,10 @@
       - bash
       - make
       - python3
+    cask_packages:
+      - alacritty
     pacman_packages:
+      - alacritty
       - python
       - gvim
 
@@ -76,6 +78,13 @@
         name: "{{ item }}"
         state: latest
       with_items: '{{ common_packages + brew_packages }}'
+      when: not is_linux
+
+    - name: Install all the packages (Cask)
+      homebrew_cask:
+        name: "{{ item }}"
+        state: latest
+      with_items: '{{ cask_packages }}'
       when: not is_linux
 
     - name: Install cargo

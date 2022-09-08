@@ -29,7 +29,6 @@
       - fzf
       - git
       - go
-      - gvim
       - htop
       - httpie
       - jq
@@ -50,6 +49,7 @@
       - python3
     pacman_packages:
       - python
+      - gvim
 
   tasks:
     - name: Copy common configs

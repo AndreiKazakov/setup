@@ -48,6 +48,7 @@
       - python3
     cask_packages:
       - alacritty
+      - homebrew/cask-fonts/font-ubuntu-mono-nerd-font
     pacman_packages:
       - alacritty
       - python

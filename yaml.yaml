@@ -42,15 +42,12 @@
       - tmux
       - tree
       - unzip
-      - watchexec
       - zsh
     brew_packages:
       - autojump
       - bash
-      - git-crypt
       - make
       - python3
-      - watch
     pacman_packages:
       - python
 

@@ -1,2 +1,2 @@
 #!/bin/sh
-ansible-playbook -K yaml.yaml
+LC_ALL=en_US.UTF-8 ansible-playbook -K yaml.yaml

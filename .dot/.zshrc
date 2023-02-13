@@ -1,6 +1,7 @@
 export KEYTIMEOUT=1
 export PATH=~/bin:~/.local/bin:$PATH
 export LANG="en_US.utf8"
+export LC_ALL=en_US.UTF-8
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
   tmux attach || exec tmux new-session && exit;
 fi
@@ -62,7 +63,12 @@ setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording en
 setopt HIST_VERIFY # Don't execute immediately upon history expansion.
 [[ -f '/usr/share/fzf/key-bindings.zsh' ]] && source /usr/share/fzf/key-bindings.zsh
 [[ -f '/usr/share/fzf/completion.zsh' ]] && source /usr/share/fzf/completion.zsh
-FZF_DEFAULT_OPTS="--preview='echo {} | ccat --color=always'"
+export FZF_CTRL_R_OPTS="
+  --preview 'echo {}'
+  --preview-window wrap
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header 'Press CTRL-Y to copy command into clipboard'"
 
 autoload -U colors; colors
 

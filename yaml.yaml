@@ -2,7 +2,6 @@
   vars:
     is_linux: "{{ lookup('pipe', 'uname') == 'Linux' }}"
     vimrcs: ['.vimrc', '.ideavimrc']
-    external_zsh_plugins: ['zsh-autosuggestions', 'zsh-syntax-highlighting', 'zsh-completions']
     git_configs:
       - name: user.name
         value: Andrei Kazakov
@@ -40,7 +39,7 @@
       - tmux
       - tree
       - unzip
-      - zsh
+      - fish
     brew_packages:
       - autojump
       - bash
@@ -131,37 +130,14 @@
         dest: '~/.tmux.conf'
         force: no
 
-    - name: Install Oh My Zsh
-      git:
-        repo: https://github.com/robbyrussell/oh-my-zsh.git
-        dest: ~/.oh-my-zsh
-
-    - name: Create a new Zsh config
-      copy:
-        src: ~/.oh-my-zsh/templates/zshrc.zsh-template
-        dest: ~/.zshrc
-        force: no
-    
-    - name: Source common zsh configs
+    - name: Source common fish configs
       lineinfile:
-        path: ~/.zshrc
-        line: source ~/.dot/.zshrc
+        path: ~/.config/fish/config.fish
+        line: source ~/.dot/config.fish
 
-    - name: Install Zsh Plugins
-      git:
-        repo: 'https://github.com/zsh-users/{{ item }}'
-        dest: '~/.oh-my-zsh/custom/plugins/{{ item }}'
-      with_items: '{{ external_zsh_plugins }}'
-
-    - name: Remove plugins line from ~/.zshrc
-      lineinfile:
-        path: ~/.zshrc
-        state: absent
-        regex: '^plugins=\([.\n]*?\)$'
-    
-    - name: Use Zsh as a default shell
+    - name: Use fish as a default shell
       become: true
-      shell: chsh -s /bin/zsh
+      shell: chsh -s /bin/fish
 
     - name: Install Lunar Vim
       shell: LV_BRANCH='release-1.2/neovim-0.8' bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/fc6873809934917b470bff1b072171879899a36b/utils/installer/install.sh)

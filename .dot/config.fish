@@ -6,4 +6,5 @@ if status is-interactive
             source $AUTOJUMP_PATH
         end
     end
+    fish_vi_key_bindings
 end

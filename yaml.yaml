@@ -23,6 +23,7 @@
       - name: interactive.diffFilter
         value: '`brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight'
     common_packages:
+      - fish
       - docker
       - fzf
       - git
@@ -39,7 +40,6 @@
       - tmux
       - tree
       - unzip
-      - fish
     brew_packages:
       - autojump
       - bash

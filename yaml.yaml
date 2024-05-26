@@ -123,8 +123,8 @@
 
     - name: Create alacritty config
       copy:
-        src: './.dot/.alacritty.yml'
-        dest: '~/.alacritty.yml'
+        src: './.dot/.alacritty.toml'
+        dest: '~/.alacritty.toml'
         force: no
 
     - name: Create tmux config

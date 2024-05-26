@@ -1,0 +1,9 @@
+[font]
+size = 18.0
+
+[window]
+startup_mode = "Fullscreen"
+
+[shell]
+args = ["-l", "-c", "tmux attach || tmux"]
+program = "/bin/zsh"
